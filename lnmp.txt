@@ -1,0 +1,34 @@
+php:
+	sudo apt update
+	sudo apt install php-fpm php-opcache php-cli php-gd php-curl php-mysql
+	vim /etc/php/7.4/fpm/pool.d -> security.limit_extensions = .php .php3 .php4 .php5 .php7 .html .js .css .jpg .jpeg .gif .png .htm
+	sudo systemctl restart php7.4-fpm
+sql:
+	sudo apt install mariadb-server
+	sudo systemctl status mariadb
+	sudo mysql_secure_installation
+
+nginx:
+	sudo apt install nginx
+	vim /etc/nginx/sites-availabl
+
+server {
+    listen 80;
+    listen [::]:80;
+
+    root /var/www/example.com/public_html;
+
+    index index.html;
+
+    server_name localhost;
+
+     access_log /var/log/nginx/example.com.access.log;
+     error_log /var/log/nginx/example.com.error.log;
+
+    location / {
+        include snippets/fastcgi-php.conf;
+    		fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+    }
+}
+
+	sudo ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/

@@ -1,0 +1,36 @@
+Nginx with iis
+
+host & ip & domain
+LB Debian 11			IP	192.168.1.1		DNS	web1.dtask.com
+DC1 Windows server 2022		IP	192.168.1.254	DNS	dc1.dtask.com
+
+
+DC1:
+	Install-WindowsFeat
+	IIS 
+		virtualHost dc1.dtask.com port 80
+		
+LB:
+	Nginx
+		virtualHost web1.dtask.com port 8081
+		virtualHost	web1.dtask.com port 80		
+
+	configurtion
+		vitualHost LB config:
+			upstream test {
+				server dc1.dtask.com;
+				server web1.dtask.com:8081;
+			}
+
+			server{
+				listen 80;
+				
+				server_name web1.dtask.com;
+				
+				location / {
+					proxy_pass http://test;
+				}
+			}
+		
+		/etc/nginx/nginx.conf 要改的地方有 : {listen 8081}
+
