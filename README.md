@@ -7,3 +7,4 @@
 
 
 ## Cisco R&S 設定
+### dhcp snooping
