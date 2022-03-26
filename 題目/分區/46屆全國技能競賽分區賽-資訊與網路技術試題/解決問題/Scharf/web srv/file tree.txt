@@ -1,0 +1,14 @@
+tree /var/www
+
+/var/www/
+├── html
+│   └── index.nginx-debian.html
+└── www
+    ├── download
+    │   └── 20M.rar
+    └── index.html
+tree.txt [error opening dir]
+
+3 directories, 3 files
+
+

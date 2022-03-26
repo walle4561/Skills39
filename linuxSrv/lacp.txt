@@ -1,0 +1,17 @@
+auto bond0
+iface bond0 inet static
+address 192.168.1.1/24
+bond-mode 1
+bond-priamry eth0
+bond-slaves eth0 eth1
+bond-miimon 100
+bond-downdelay 400
+bond-updelay 800
+
+如果有成功
+
+ifconfig 
+
+bond0: flags=5187<UP,BROADCAST,RUNNING,MASTER,NULTICAST>
+eth0: flags=5211<UP,BROADCAST,RUNNING,SLAVE,MULTICAT>
+eth1: flags=6211<UP,BROADCAST,RUNNING,SLAVE,MULTICAT>
