@@ -1,0 +1,78 @@
+===========================================================
+		   Internet	      
+MasterClt-------|     | 	            |-------RODC	
+       DC-------|     | 	            |-------branchClt
+    Samba-------|---site1---ipsec---site2---|
+				     
+				    
+site1 nic config:
+	eth0:192.168.1.254/24  internal
+	eth1:10.1.1.1/30       special line
+	eth2:172.16.16.1/24    internet
+site2 nic config:
+	eth0:192.168.2.254/24  internal
+	eth1:10.1.1.2/30       special line
+===========================================================
+$ sudo vim /etc/sysctl.conf
+net.ipv4.ip_forward = 1 
+net.ipv6.conf.all.forwarding = 1 
+net.ipv4.conf.all.accept_redirects = 0 
+net.ipv4.conf.all.send_redirects = 0 
+===========================================================
+site1$ vim /etc/ipsec.conf
+
+config setup
+	# strictcrlpolicy=yes
+	charondebug="all"
+	uniqueids = yes
+
+conn site1-to-site2
+	type=tunnel
+	auto=start
+	keyexchange=ikev2
+	authby=secret
+	left=10.1.1.1
+	leftsubnet=192.168.1.254/24
+	right=10.1.1.2
+	rightsubnet=192.168.2.254/24
+	ike=aes256-sha1-modp1024!
+	esp=aes256-sha1!
+	aggressive=no
+	keyingtries=%forever
+	ikelifetime=28800s
+	dpddelay=30s
+	dpdtimeout=120s
+	dpdaction=restart
+
+site2$ vim /etc/ipsec.conf
+10.1.1.1 10.1.1.2 : PSK "Skills39"
+
+===========================================================
+site2$ vim /etc/ipsec.conf
+
+config setup
+	# strictcrlpolicy=yes
+	charondebug="all"
+	uniqueids = yes
+
+conn site2-to-site1
+	type=tunnel
+	auto=start
+	keyexchange=ikev2
+	authby=secret
+	left=10.1.1.2
+	leftsubnet=192.168.2.254/24
+	right=10.1.1.1
+	rightsubnet=192.168.1.254/24
+	ike=aes256-sha1-modp1024!
+	esp=aes256-sha1!
+	aggressive=no
+	keyingtries=%forever
+	ikelifetime=28800s
+	lifetime=3600s
+	dpddelay=30s
+	dpdtimeout=120s
+	dpdaction=restart
+
+site2$ vim /etc/ipsec.conf
+10.1.1.2 10.1.1.1 : PSK "Skills39"
