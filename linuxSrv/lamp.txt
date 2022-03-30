@@ -1,0 +1,9 @@
+==============================================
+apt install -y mariadb-server mariadb-client
+mysql_secure_installation
+mysql -u root -p
+==============================================
+apt install -y apache2 apache2-utils
+==============================================
+apt install php libapache2-mod-php php-cli php-fpm php-json php-pdo php-mysql php-zip php-gd  php-mbstring php-curl php-xml php-pear php-bcmath
+echo "<?php phpinfo(); ?>" > /var/www/html/info.php
