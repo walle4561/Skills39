@@ -1,0 +1,50 @@
+------------------------------------------------------------
+|										|	
+|										|
+| ISP|.1--------------------- Client ------------------|.1  |
+|			192.0.2.0/24		 172.16.1.0/24    |
+|										|
+------------------------------------------------------------
+
+ISP config:
+hostname ISP
+!
+username Wendell password Odom
+!
+bba-group pppoe PPPoE_Group
+ virtual-template 1
+!
+interface GigabitEthernet0/1
+ pppoe enable group PPPoE_Group
+ no shutdown
+!
+interface Virtual-Template1
+ ip address 192.0.2.1 255.255.255.0
+ peer default ip address pool PPPoETest
+ ppp authentication chap callin
+!
+ip local pool PPPoETest 192.0.2.100 192.0.2.110
+
+Client config:
+hostname Client
+!
+interface GigabitEthernet0/1
+ no shutdown
+!
+interface GigabitEthernet0/2
+ ip address 172.16.1.1 255.255.255.0
+ no shutdown
+!
+interface GigabitEthernet0/1
+ pppoe enable
+ pppoe-client dial-pool-number 5
+!
+interface Dialer10
+ mtu 1492                  ! layer 3
+ ip address negotiated     ! layer 3
+ encapsulation ppp         ! layer 2
+ ppp chap hostname Wendell
+ ppp chap password Odom    
+ dialer pool 5             ! layer 1
+!
+ip route 0.0.0.0 0.0.0.0 Dialer10
