@@ -1,0 +1,17 @@
+#!/bin/bash
+
+command="echo \"<\$(date)>-<\$(whoami)> Logout\" >> \"/var/log/logout/\$(whoami)_logout.log\""
+
+for ((i=1;i<10;i++))
+do
+	echo $command > "/home/user0$i/.bash_logout"
+	echo $command > "/home/admin0$i/.bash_logout"
+done
+
+
+echo $command > "/home/admin10/.bash_logout"
+
+for ((i=10;i<101;i++))
+do
+	echo $command > "/home/user$i/.bash_logout"
+done

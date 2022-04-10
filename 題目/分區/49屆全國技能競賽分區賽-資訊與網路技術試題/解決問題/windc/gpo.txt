@@ -1,0 +1,6 @@
+禁止登入初始畫面
+Computer > Policies > Administrative Templates > System > Logon > Show first sign-in animation
+禁止使用控制台
+User > Policies > Administrative Templates > Control Panel > Prohibit access to Control Panel and PC settings
+禁止上一個使用者登入
+Computer > Policies > Windows Settings > Security Settings > Local Policies > Security Options > INteracitve logon: Don't display last signed-in

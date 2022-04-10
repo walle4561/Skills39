@@ -1,0 +1,31 @@
+#!/usr/sbin/nft -f
+
+flush ruleset
+
+table inet filter {
+	chain input {
+		type filter hook input priority 0;
+	}
+	chain forward {
+		type filter hook forward priority 0;
+	}
+	chain output {
+		type filter hook output priority 0;
+	}
+}
+
+table nat {
+	chain output{
+		type nat hook output priority -100;
+
+	}
+	chain prerouting {
+		type nat hook prerouting priority -100;
+		iif eth1 tcp dport {https,http} counter dnat to 192.168.1.20 comment "web Server"
+	}
+	chain postrouting {
+		type nat hook postrouting priority 100;
+		masquerade random,persistent
+	}
+
+}
