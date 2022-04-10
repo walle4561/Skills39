@@ -1,0 +1,3 @@
+openssl pkcs12 -in [filename.pfx] -clcerts -nokeys -out [certificatename.crt]
+openssl pkcs12 -in [filename.pfx] -nocerts -out [certificatename.key]
+openssl rsa -in tmp.key -out tmp.key.unsecure
