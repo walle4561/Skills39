@@ -1,0 +1,9 @@
+R1(config)#interface fastEthernet 0/0
+R1(config-if)#ip ospf message-digest-key 1 md5 MYPASS
+
+=========================================================
+R1(config-if)#ip ospf authentication message-digest 
+或是這樣 
+R1(config)#router ospf 1
+R1(config-router)#area 0 authentication message-digest
+=========================================================
