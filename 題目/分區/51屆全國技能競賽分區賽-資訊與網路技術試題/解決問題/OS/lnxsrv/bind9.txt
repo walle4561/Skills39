@@ -1,0 +1,36 @@
+路由器上面 設定虛擬伺服器
+192.168.10.20 port udp 53
+
+======================================================
+vim /etc/bind/name.conf.local
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "diego.com" {
+	type master;
+	file "db.diego.com";
+};
+
+======================================================
+vim /var/cache/bind/db.diego.com
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	dns.diego.com. root.diego.com. (
+			      2		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@			IN NS	dns.diego.com.
+dns			IN A	51.51.51.2
+erp-dora		IN A	51.51.51.2
+branch			IN NS	dns.branch.diego.com.
+dns.branch		IN A	51.51.51.3

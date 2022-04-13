@@ -1,0 +1,14 @@
+================================================
+$openssl req -x509 -nodes -new -sha256 -days 10950 -newkey rsa:4096 -keyout RootCA.key -out RootCA.pem -subj "/O=NIHS/CN=Branch Root CA"
+$openssl x509 -outform pem -in RootCA.pem -out RootCA.crt
+
+$openssl pkcs12 -export -in RootCA.crt -inkey RootCA.key -out output.pfx
+
+$vim san.txt
+subjectAltName = @alt_names
+[alt_names]
+DNS.1 = *.branch.biego.com
+
+$openssl req -new -nodes -newkey rsa:4096 -keyout certificate.key -out certificate.csr -subj "/C=TW/ST=Taipei/L=Taiwan/O=NIHS/CN=*.branch.biego.com"
+$openssl x509 -req -sha256 -days 365 -in certificate.csr -CA RootCA.pem -CAkey RootCA.key -CAcreateserial -extfile san.txt -out certificate.crt
+================================================

@@ -1,0 +1,30 @@
+==================================================================
+vim /etc/bind/named.conf.local
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+
+zone "branch.diego.com" {
+	type master;
+	file "db.branch.diego.com";
+};
+==================================================================
+vim /var/cache/bind/db.branch.diego.com
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	dns.branch.diego.com. root.dns.branch.diego.com. (
+			      2		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@			IN NS	dns.branch.diego.com.
+dns.branch.diego.com.	IN A	51.51.51.3
+www.branch.diego.com.	IN A	51.51.51.3

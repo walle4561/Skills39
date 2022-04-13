@@ -1,0 +1,6 @@
+sudo 設定使用 visudo
+apt install sudo
+
+
+visudo
+webadmin ALL=/usr/bin/ls,/usr/bind/cat,/usr/bin/mv
